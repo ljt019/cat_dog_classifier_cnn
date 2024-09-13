@@ -3,6 +3,7 @@
 This is a machine learning model trained to differentiate between sketches of cats and dogs. It was built as part of a learning project to understand how AI models work and how to train them.
 
 ## Model Details
+- **[Hugging Face Model](https://huggingface.co/ljt019/cat_dog_classifier_cnn)**
 
 - **Model Type**: Convolutional Neural Network (CNN)
 - **Training Data**: Quick, Draw! dataset (cat and dog sketches only)
@@ -59,10 +60,6 @@ To use this model, you can follow these steps:
 ## Training the Model
 
 To train the model yourself, use the provided `train_cat_dog_classifier.py` script.
-
-## Hugging Face
-
-[Hugging Face Model](https://huggingface.co/yourusername/your-model-repo)
 
 ## License
 

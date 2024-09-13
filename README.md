@@ -1,25 +1,72 @@
+---
+title: Cat and Dog Sketch Classifier
+emoji: 🐱🐶
+tags:
+  - image-classification
+  - quickdraw
+  - cat
+  - dog
+license: mit
+---
 # Cat and Dog Sketch Classifier
 
-This project contains a machine learning model that differentiates between sketches of cats and dogs. It was created as a learning exercise to understand how AI models work and how to train them.
+This is a machine learning model trained to differentiate between sketches of cats and dogs. It was built as part of a learning project to understand how AI models work and how to train them.
 
-## Project Structure
+## Model Details
 
-- `quickdraw_data/` - Directory containing `cat.npy` and `dog.npy` files.
-- `cat_dog_classifier.bin` - Trained model file.
-- `config.json` - Configuration file with parameters for the model and training.
-- `model.py` - Contains the model definition for the Convolutional Neural Network (CNN).
-- `sample_predictions.png` - Image file with sample predictions from the model.
-- `train_cat_dog_classifier.py` - Script to train the classifier.
-- `requirements.txt` - Python Dependencies needed to run the training script
+- **Model Type**: Convolutional Neural Network (CNN)
+- **Training Data**: Quick, Draw! dataset (cat and dog sketches)
+- **License**: MIT License
+- **Supported Tasks**: Image Classification
 
-## Dependencies
+## Usage
 
-To install the required Python packages to train the model, use the following command:
+To use this model, you can follow these steps:
 
-```bash
-pip install -r requirements.txt
-```
+1. **Load the Model**:
+    ```python
+    import torch
+    from model import SimpleCNN
+    model = SimpleCNN()
+    model.load_state_dict(torch.load('cat_dog_classifier.bin'))
+    model.eval()
+    ```
+2. **Predict an Image**:
+    ```python
+    from PIL import Image
+    import numpy as np
+    import torch
+    def predict_image(model, image):
+        # Preprocess the image
+        if isinstance(image, Image.Image):
+            image = image.resize((28, 28)).convert('L')
+            image = np.array(image).astype('float32') / 255.0
+        elif isinstance(image, np.ndarray):
+            if image.shape != (28, 28):
+                image = Image.fromarray(image).resize((28, 28)).convert('L')
+                image = np.array(image).astype('float32') / 255.0
+        else:
+            raise ValueError("Image must be a PIL Image or NumPy array.")
+        image = image.reshape(1, 1, 28, 28)
+        image_tensor = torch.tensor(image).to(device)
+        # Get prediction
+        model.eval()
+        with torch.no_grad():
+            output = model(image_tensor)
+            _, predicted = torch.max(output.data, 1)
+        return 'cat' if predicted.item() == 0 else 'dog'
+    # Example usage
+    image = Image.open('path/to/your/image.png')
+    prediction = predict_image(model, image)
+    print(prediction)
+    ```
+## Training the Model
+
+To train the model yourself, use the provided `train_cat_dog_classifier.py` script.
+
+## Hugging Face
+[Hugging Face Model](https://huggingface.co/yourusername/your-model-repo)
 
 ## License
 
-MIT
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.

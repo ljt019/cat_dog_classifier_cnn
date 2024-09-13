@@ -1,13 +1,3 @@
----
-title: Cat and Dog Sketch Classifier
-emoji: 🐱🐶
-tags:
-  - image-classification
-  - quickdraw
-  - cat
-  - dog
-license: mit
----
 # Cat and Dog Sketch Classifier
 
 This is a machine learning model trained to differentiate between sketches of cats and dogs. It was built as part of a learning project to understand how AI models work and how to train them.
@@ -15,7 +5,7 @@ This is a machine learning model trained to differentiate between sketches of ca
 ## Model Details
 
 - **Model Type**: Convolutional Neural Network (CNN)
-- **Training Data**: Quick, Draw! dataset (cat and dog sketches)
+- **Training Data**: Quick, Draw! dataset (cat and dog sketches only)
 - **License**: MIT License
 - **Supported Tasks**: Image Classification
 
@@ -27,15 +17,19 @@ To use this model, you can follow these steps:
     ```python
     import torch
     from model import SimpleCNN
+
+    # Load the model
     model = SimpleCNN()
     model.load_state_dict(torch.load('cat_dog_classifier.bin'))
     model.eval()
     ```
+
 2. **Predict an Image**:
     ```python
     from PIL import Image
     import numpy as np
     import torch
+
     def predict_image(model, image):
         # Preprocess the image
         if isinstance(image, Image.Image):
@@ -55,16 +49,19 @@ To use this model, you can follow these steps:
             output = model(image_tensor)
             _, predicted = torch.max(output.data, 1)
         return 'cat' if predicted.item() == 0 else 'dog'
+
     # Example usage
     image = Image.open('path/to/your/image.png')
     prediction = predict_image(model, image)
     print(prediction)
     ```
+
 ## Training the Model
 
 To train the model yourself, use the provided `train_cat_dog_classifier.py` script.
 
 ## Hugging Face
+
 [Hugging Face Model](https://huggingface.co/yourusername/your-model-repo)
 
 ## License
